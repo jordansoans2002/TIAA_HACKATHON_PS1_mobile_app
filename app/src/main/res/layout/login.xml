@@ -31,6 +31,13 @@
         android:hint="Password"
         android:inputType="textPassword" />
 
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Incorrect username or password"
+        android:textColor="#F10E0E" />
+
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"

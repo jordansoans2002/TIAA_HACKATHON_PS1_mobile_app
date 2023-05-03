@@ -4,8 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,11 +30,14 @@ public class SeatSelectActivity extends AppCompatActivity {
 
     static List<Integer> selected = new ArrayList<>();
 
+    String MY_SHARED_PREFERENCES = "SwiftTravelsSharedPreferences";
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat_select);
+        sharedPreferences = getSharedPreferences(MY_SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
         Intent intent = getIntent();
         String t = intent.getStringExtra("time");
@@ -72,4 +80,34 @@ public class SeatSelectActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.app_bar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.logout) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
+            Intent intent = new Intent(this,MainActivity.class);
+            this.startActivity(intent);
+        } else if (id == R.id.view_history) {
+            Log.e("signed in before check history",sharedPreferences.getBoolean("IS_LOGGED_IN",Boolean.FALSE)+"");
+            if(sharedPreferences.getBoolean("IS_LOGGED_IN",Boolean.FALSE)) {
+                Intent intent = new Intent(this,BookingHistoryActivity.class);
+                this.startActivity(intent);
+
+            } else {
+                LoginPopup dialog = new LoginPopup(seats.getRootView(),sharedPreferences);
+                dialog.createDialog();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

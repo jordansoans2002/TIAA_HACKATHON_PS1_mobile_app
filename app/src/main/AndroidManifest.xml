@@ -12,6 +12,9 @@
         android:theme="@style/Theme.TIAA_PS1_mobile_app"
         tools:targetApi="31">
         <activity
+            android:name=".BookingHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".PaymentActivity"
             android:exported="false" />
         <activity

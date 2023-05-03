@@ -42,11 +42,11 @@ public class BusDetailsAdapter extends RecyclerView.Adapter<BusDetailsAdapter.Vi
         holder.features.setText(buses.get(position).getFeatures());
 
         holder.detailsCard.setOnClickListener((View view) -> {
+            Log.e("check signin",sharedPreferences.getBoolean("IS_LOGGED_IN",Boolean.FALSE)+"");
             //in seat selector activity on resume check for login
             //if not logged in create dialog box
             if(sharedPreferences.getBoolean("IS_LOGGED_IN",Boolean.FALSE)) {
                 //if logged in start seat selector activity
-                Log.e("check login", sharedPreferences.getBoolean("IS_LOGGED_IN", Boolean.FALSE) + "");
                 Intent intent = new Intent(view.getContext(),SeatSelectActivity.class);
                 BusDetails bus = buses.get(holder.getAdapterPosition());
                 intent.putExtra("time",bus.getTime());
